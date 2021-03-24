@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiment 2</title>
+  <!-- CSS File -->
+  <link rel="stylesheet" type="text/css" href="assets/css/canvas.css" />
+  <link rel="stylesheet" type="text/css" href="assets/css/Style.css" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+  <!-- JS File -->
+  <!-- Axios - -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/482608b616.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162480253-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "UA-162480253-2");
+  </script>
+
+</head>
+
+<body>
+  <div class="container-fluid" id="banner">
+    <div style="background-color: #f7b633;">
+       <div class="mx-auto text-center" style="width: 700px; font-size: 35px;">
+         Human Information Processing
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="mainEX2">
+    <div id="explanation_ex2">
+      <div class="card text-center">
+        <div class="card-body">
+          <h4 class="card-title">คำอธิบาย: การทดลองที่ 2</h4>
+          <p class="card-text">
+            <pre
+              style="font-family: KrungthaiFast-Regular, sans-serif;font-size:15px;margin-bottom: 0;text-align: left;">
+            1. ให้ผู้ร่วมการทดลอง กดปุ่มบน<span style="color: #ee0f0f;">คีย์บอร์ด W A S D</span> <img src="https://raw.githubusercontent.com/soycoder/hip-map-project/master/assets/img/expain/pic-keyboard.png" height="60px" /> ในการบังคับรถยนต์ เพื่อ<b>เดินตามเส้นทาง</b> ที่ท่านได้จดจำเมื่อเริ่มการทดลอง
+                          <img src="https://raw.githubusercontent.com/soycoder/hip-map-project/master/assets/img/expain/ex2-play.gif" height="280px" />
+
+              หากท่านคิดว่าได้ <b>เดินทางมาถึงเป้าหมายแล้ว</b> (โดยใช้เส้นทางเดินเดียวกับตอนอธิบาย) กดปุ่ม ถึง จุดหมายแล้ว <span class="btn btn-warning">ถึง จุดหมายแล้ว</span>
+              
+              <b style="color: #ee0f0f;">*หมายเหตุ* </b> แรกเริ่ม ผู้ร่วมการทดลอง ต้องปฏิบัติ ตามรูป
+                          <img src="https://raw.githubusercontent.com/soycoder/hip-map-project/master/assets/img/expain/ex2-init.gif" height="280px" />
+            </pre>
+          </p>
+        </div>
+      </div>
+      <button class="btn btn-warning btn-lg btn-block" id="getInfo" onclick="startEX2()">
+        เริ่ม การทดลอง
+      </button>
+    </div>
+
+
+    <div id="ex2" class="hidden">
+      <img class="hidden" id="full-map" src="https://raw.githubusercontent.com/soycoder/hip-map-project/master/assets/img/full_map_di.png" alt="full_map_di.png" width="1000"
+        height="720" />
+      <img class="hidden" id="AudiCar-A" src="assets/img/Topdown_vehicle_sprites_pack/Audi_A.png" />
+      <img class="hidden" id="AudiCar-S" src="assets/img/Topdown_vehicle_sprites_pack/Audi_S.png" />
+      <img class="hidden" id="AudiCar-W" src="assets/img/Topdown_vehicle_sprites_pack/Audi_W.png" />
+      <img class="hidden" id="AudiCar-D" src="assets/img/Topdown_vehicle_sprites_pack/Audi_D.png" />
+      <div class="row container">
+        <div class="col-1"></div>
+        <div class="col-8">
+          <canvas width="1000" height="720" id="canvas_ex2" tabindex="0">
+            Canvas tag
+          </canvas></div>
+        <div class="col-2"></div>
+
+      </div>
+      <div class="container">
+        <button class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#myModal"
+          onclick="saveData()">
+          ถึง จุดหมายแล้ว
+        </button>
+      </div>
+    </div>
+    <div id="timer" class="hidden" style="
+          text-align: center;
+          margin-top: 50px;
+          font-size: 60px;
+          color: #ee0f0f;
+        ">
+      <span id="countdowntimer">5 </span>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h3 class="modal-title">สถานะการบันทึกข้อมูล</h3>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body center" id="mymodal-body">
+            <div class="spinner-border text-warning center" style="width: 5rem; height: 5rem;font-size: 20px;"
+              role="status">
+            </div>
+            <br />
+            <span style="font-size: 20px">กำลังบันทึกข้อมูล...</span>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="hidden" id="footer">
+            <div class="modal-footer center " id="mymodal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-close">เสร็จสิ้น</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/canvas.js"></script>
+    <script>
+
+      var dataImg = {};
+      base64ToJSON();
+      function base64ToJSON() {
+        let len = sessionStorage.getItem("base64canvas").length;
+        let col = parseInt((len / 45000)) + 1;
+        let dataOut = {};
+        dataOut['stuID'] = localStorage.getItem("stuID");
+        for (let i = 0; i < col; i++) {
+          let img = '';
+          if (i == col) {
+            img = sessionStorage.getItem("base64canvas").substring(i * 45000,len);
+          }
+          else { img = sessionStorage.getItem("base64canvas").substring(i * 45000, (i + 1) * 45000); }
+
+          let c = i + 1
+          dataOut[c.toString()] = img;
+          // console.log(c,img.length);
+          
+        }
+        dataImg = dataOut;
+      }
+
+
+
+      function saveDataToSheet() {
+        // let img1 = sessionStorage.getItem("base64canvas").substring(0,parseInt(sessionStorage.getItem("base64canvas").length/2));
+        // let img2 = sessionStorage.getItem("base64canvas").substring(parseInt(sessionStorage.getItem("base64canvas").length/2),parseInt(sessionStorage.getItem("base64canvas").length));
+        let data = {
+          "stuID": localStorage.getItem("stuID"),
+          "type": localStorage.getItem("type"),
+          "faculty": localStorage.getItem("faculty"),
+          "displayname_th": localStorage.getItem("displayname_th"),
+          "displayname_en": localStorage.getItem("displayname_en"),
+          "group": localStorage.getItem("group"),
+          "infoStart": localStorage.getItem("infoStart"),
+          "infoFinish": localStorage.getItem("infoFinish"),
+          "startExperiment1": localStorage.getItem("startExperiment1"),
+          "finishExperiment1": localStorage.getItem("finishExperiment1"),
+          "startExperiment2": localStorage.getItem("startExperiment2"),
+          "finishExperiment2": localStorage.getItem("finishExperiment2"),
+          "result": localStorage.getItem("result")
+        };
+
+        
+
+        // Send a POST request
+        function axiosSendToapiResult() {
+          return axios({
+            method: 'post',
+            url: 'https://gsheet-api.herokuapp.com/api/result',
+            data,
+          }).then(response => {
+            return response.data
+          })
+        }
+
+        function axiosSendToapiImage() {
+          return axios({
+            method: 'post',
+            url: 'https://gsheet-api.herokuapp.com/api/image',
+            data : dataImg,
+            
+          }).then(response => {
+            return response.data
+          })
+        }
+
+        axiosSendToapiResult().then(resResult => {
+          axiosSendToapiImage().then(resImage => {
+            console.log(resImage);
+
+            if (resResult.success === true && resImage.success === true) {
+              document.getElementById("mymodal-body").innerHTML = ` 
+                <div class="text-success center">
+                  <i class="fas fa-check-circle fa-5x"></i>
+                </div>
+                <br/>
+                <span class="center" style="font-size: 20px">บันทึกสำเร็จ</span>
+                `;
+              document.getElementById("footer").classList.remove("hidden");
+            }
+          })
+
+        })
+      }
+
+      document.getElementById("btn-close").addEventListener("click", function () {
+        location.replace("thank.html");
+      });
+
+    </script>
+
+</body>
+
+</html>

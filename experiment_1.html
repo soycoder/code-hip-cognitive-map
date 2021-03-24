@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment 1</title>
+    <!-- CSS File -->
+    <link rel="stylesheet" type="text/css" href="assets/css/canvas.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/Style.css" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <!-- JS File -->
+    <!-- Auth - -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="assets/js/auth.js"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-162480253-2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-162480253-2");
+    </script>
+    <!-- JS File -->
+    <script src="assets/js/canvas_experiment_1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div style="background-color: #f7b633;">
+         <div class="mx-auto text-center" style="width: 700px; font-size: 35px;">
+           Human Information Processing
+        </div>
+      </div>
+    </div>
+    <br />
+
+    <div class="container">
+      <div id="explanation_ex1">
+        <div class="card text-center">
+          <div class="card-body">
+            <h4 class="card-title">คำอธิบาย: การทดลองที่ 1</h4>
+            <p class="card-text">
+              <pre style="font-family: KrungthaiFast-Regular, sans-serif;font-size:15px;margin-bottom: 0;text-align: left;">
+              1. ให้ผู้ร่วมการทดลอง ใช้<b><span style="color: #ee0f0f;">เมาส์</span></b> <b>วงกลม</b> สถานที่ ที่หายไป หรือ ย้ายตำแหน่ง จากแผนที่ ที่ให้จดจำเส้นทางในตอนเริ่มต้น
+                  หากท่านคิดว่า <b>วงกลมครบทุกจุด</b> แล้ว กดปุ่ม ถัดไป <span class="btn btn-warning "style="margin-right: 20px;margin: 5px;"> ถัดไป </span>   
+                              <img src="https://raw.githubusercontent.com/soycoder/hip-map-project/master/assets/img/expain/ex1-draw.gif" height="280px" />
+
+                  หาก <b>ต้องการแก้ไข</b> กดปุ่ม วาดใหม่ <span class="btn btn-secondary "style="margin-right: 20px;"> วาดใหม่ </span>
+                              <img src="https://raw.githubusercontent.com/soycoder/hip-map-project/master/assets/img/expain/ex1-re.gif" height="280px" /></pre>
+            </p>
+          </div>
+        </div>
+        <button
+          class="btn btn-warning btn-lg btn-block"
+          id="getInfo"
+          onclick="startEX1()"
+        >
+          เริ่ม การทดลอง
+        </button>
+      </div>
+    </div>
+
+    <div class="container-fluid hidden" id="ex1" >
+      <div class="row">
+        <div class="col-9">
+          <div id="canvas-ex1" class="center" style="max-width: 1000px;">
+            <img
+              class="hidden"
+              id="full_map_ex1"
+              src="assets/img/full_map_ex1_di.png"
+              alt="full_map_ex1.png"
+            />
+            <canvas width="900px" height="650px" id="myCanvas_ex1" tabindex="0">
+              Experiment 1
+            </canvas>
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col-2">
+          <div class="row">
+            <button
+              onclick="clearArea();"
+              class="btn btn-secondary btn-lg btn-block"
+              style="margin-right: 20px;margin: 5px;"
+            >
+              วาดใหม่
+            </button>
+          </div>
+          <div class="row">
+            <button
+              
+              id="btnSave"
+              class="btn btn-warning btn-lg btn-block"
+              style="margin-right: 20px;margin: 5px;"
+            >
+              ถัดไป
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="timer"
+      class="hidden"
+      style="
+        text-align: center;
+        margin-top: 50px;
+        font-size: 60px;
+        color: #ee0f0f;
+      "
+    >
+      <span id="countdowntimer">5 </span>
+    </div>
+    <div id="img-out"></div>
+    <script> 
+    $(function() { 
+    $("#btnSave").click(function() { 
+        html2canvas($("#myCanvas_ex1"), {
+            onrendered: function(canvas) {
+                theCanvas = canvas;
+                document.body.appendChild(canvas);
+                // Convert and download as image 
+                // Canvas2Image.saveAsPNG(canvas); 
+                $("#img-out").append(canvas);
+                // console.log(canvas.toDataURL());
+                sessionStorage.setItem("base64canvas",canvas.toDataURL());
+              
+                // Clean up 
+                //document.body.removeChild(canvas);
+            }
+        });
+        goExperimentTwo();
+    });
+}); 
+    </script>
+  </body>
+</html>
