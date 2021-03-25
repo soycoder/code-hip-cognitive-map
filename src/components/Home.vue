@@ -25,7 +25,7 @@
     </div>
     <div class="col-md-6 mt-2">
       <!-- Login - TU  -->
-      <div class="card p-3">
+      <!-- <div class="card p-3">
         <h3 class="text-center">เข้าสู่ระบบ</h3>
         <div class="text-center">
           <div class="card-body">
@@ -60,7 +60,7 @@
             เข้าสู่ระบบ
           </button>
         </form>
-      </div>
+      </div> -->
 
       <!-- Login - Other -->
       <div class="card p-3 mt-3">
